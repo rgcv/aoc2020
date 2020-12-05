@@ -37,7 +37,7 @@ highestseatid(input_path, parallel = false) =
         maxid[]
     end
 
-@time println(highestseatid(inpath))
+println(highestseatid(inpath))
 
 # part 2
 findid(input_path) =

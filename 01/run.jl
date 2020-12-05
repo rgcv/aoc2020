@@ -33,5 +33,5 @@ threesum(target, numbers::AbstractArray) =
 const target = 2020
 const expenses = parse.(Int, readlines(joinpath(@__DIR__, "input.txt")))
 
-@show prod(twosum(target, expenses))
-@show prod(threesum(target, expenses))
+println(prod(twosum(target, expenses)))
+println(prod(threesum(target, expenses)))
