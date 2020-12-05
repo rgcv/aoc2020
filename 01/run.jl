@@ -22,7 +22,7 @@ threesum(target, numbers::AbstractArray) =
         l = length(numbers)
         for (i, n) ∈ enumerate(s)
             a, b = twosum(target - n, s[i + 1:l], true)
-            if n != target && a + b + n == target
+            if n ≠ target && a + b + n == target
                 return a, b, n
             end
         end
