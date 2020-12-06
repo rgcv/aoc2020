@@ -4,16 +4,8 @@ import Base.Threads: @threads, Atomic, atomic_max!
 
 const inpath = joinpath(@__DIR__, "input.txt")
 
-lowerhalf(r::AbstractUnitRange) =
-    let (s, e) = extrema(r)
-        s:s + (e - s) ÷ 2
-    end
-
-upperhalf(r::AbstractUnitRange) =
-    let (s, e) = extrema(r)
-        s + 1 + (e - s) ÷ 2:e
-    end
-
+lowerhalf(r::AbstractUnitRange) = first(r):(first(r) + last(r)) ÷ 2
+upperhalf(r::AbstractUnitRange) = 1 + (first(r) + last(r)) ÷ 2:last(r)
 
 seatid(seat::AbstractString,
        rows::AbstractUnitRange = 0:127,
