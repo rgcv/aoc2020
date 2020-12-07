@@ -1,7 +1,7 @@
 #!/usr/bin/env julia
 
-const input_path = joinpath(@__DIR__, "input.txt")
-const groups = split.(split(read(input_path, String), "\n\n"))
+const filename = joinpath(@__DIR__, "input.txt")
+const groups = split.(split(read(filename, String), "\n\n"))
 
 countanswers(op::Function, groups) = mapreduce(length, +, op(g...) for g ∈ groups)
 

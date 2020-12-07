@@ -2,7 +2,7 @@
 
 import Base.Threads: @threads, Atomic, atomic_max!
 
-const inpath = joinpath(@__DIR__, "input.txt")
+const filename = joinpath(@__DIR__, "input.txt")
 
 lowerhalf(r::AbstractUnitRange) = first(r):(first(r) + last(r)) ÷ 2
 upperhalf(r::AbstractUnitRange) = 1 + (first(r) + last(r)) ÷ 2:last(r)
@@ -20,20 +20,20 @@ seatid(seat::AbstractString,
     end
 
 # part 1
-highestseatid(input_path, parallel = false) =
-    !parallel ? maximum(seatid, eachline(input_path)) :
+highestseatid(filename, parallel = false) =
+    !parallel ? maximum(seatid, eachline(filename)) :
     let maxid = Atomic{Int}(typemin(Int))
-        @threads for seat ∈ readlines(input_path)
+        @threads for seat ∈ readlines(filename)
             atomic_max!(maxid, seatid(seat))
         end
         maxid[]
     end
 
-println(highestseatid(inpath))
+println(highestseatid(filename))
 
 # part 2
-findid(input_path) =
-    let s = sort(map(seatid, eachline(input_path))),
+findid(filename) =
+    let s = sort(map(seatid, eachline(filename))),
         prev = first(s)
         for e ∈ s[2:end]
             e - prev == 2 && return prev + 1
@@ -41,4 +41,4 @@ findid(input_path) =
         end
     end
 
-println(findid(inpath))
+println(findid(filename))
