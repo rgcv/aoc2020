@@ -1,6 +1,6 @@
 #!/usr/bin/env julia
 
-twosum(target, numbers::AbstractArray, sorted=issorted(numbers)) =
+twosum(target, numbers, sorted=issorted(numbers)) =
     let s = sorted ? numbers : sort(numbers),
         i = 1,
         j = length(numbers)
@@ -17,7 +17,7 @@ twosum(target, numbers::AbstractArray, sorted=issorted(numbers)) =
         0, 0
     end
 
-threesum(target, numbers::AbstractArray) =
+threesum(target, numbers) =
     let s = issorted(numbers) ? numbers : sort(numbers),
         l = length(numbers)
         for (i, n) ∈ enumerate(s)

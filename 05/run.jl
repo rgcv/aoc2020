@@ -4,12 +4,10 @@ import Base.Threads: @threads, Atomic, atomic_max!
 
 const filename = joinpath(@__DIR__, "input.txt")
 
-lowerhalf(r::AbstractUnitRange) = first(r):(first(r) + last(r)) ÷ 2
-upperhalf(r::AbstractUnitRange) = 1 + (first(r) + last(r)) ÷ 2:last(r)
+lowerhalf(r) = first(r):(first(r) + last(r)) ÷ 2
+upperhalf(r) = 1 + (first(r) + last(r)) ÷ 2:last(r)
 
-seatid(seat::AbstractString,
-       rows::AbstractUnitRange = 0:127,
-       cols::AbstractUnitRange = 0:7) =
+seatid(seat, rows = 0:127, cols = 0:7) =
     isempty(seat) ? 8minimum(rows) + maximum(cols) :
     let c = seat[1]
         seatid(SubString(seat, 2),
