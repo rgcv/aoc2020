@@ -3,8 +3,7 @@
 const input_path = joinpath(@__DIR__, "input.txt")
 const groups = split.(split(read(input_path, String), "\n\n"))
 
-# part 1
-println(mapreduce(length, +, union(g...) for g ∈ groups))
+countanswers(op::Function, groups) = mapreduce(length, +, op(g...) for g ∈ groups)
 
-# part 2
-println(mapreduce(length, +, intersect(g...) for g ∈ groups))
+println(countanswers(union, groups)) # part 1
+println(countanswers(intersect, groups)) # part 2
