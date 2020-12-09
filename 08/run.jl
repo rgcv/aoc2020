@@ -15,7 +15,7 @@ mutable struct Program
             length(visited) == len ||
             throw(ErrorException("`visited` vector must be the same length as the code (=$len)"))
         end
-        new(acc, pc, string.(code), copy(visited))
+        new(acc, pc, copy(string.(code)), copy(visited))
     end
 end
 Program(code::AbstractVector{<:AbstractString}) =
@@ -36,24 +36,21 @@ Base.size(p::Program) = length(p)
 Base.reset(p::Program) = reset!(copy(p))
 
 run(p::Program) = run!(copy(p))
-run!(p::Program) =
-    let order = 0
-        while !terminated(p) && !islooping(p)
-            p.visited[p.pc] = true
-            op, arg = split(p[p.pc])
-            arg = parse(Int, arg)
-            op == "acc" && (p.acc += arg)
-            p.pc += op == "jmp" ? arg : 1
-        end 
-        p
-    end
+function run!(p::Program)
+    while !terminated(p) && !islooping(p)
+        p.visited[p.pc] = true
+        op, arg = split(p[p.pc])
+        arg = parse(Int, arg)
+        op == "acc" && (p.acc += arg)
+        p.pc += op == "jmp" ? arg : 1
+    end 
+    p
+end
 
 fix(p::Program) = fix!(copy(p))
 fix!(p::Program) =
     let oldcode = copy(p.code)
-        run!(p)
         for i ∈ 1:size(p)
-            reset!(p)
             op, _ = split(p[i])
             newop = op == "jmp" ? "nop" :
                     op == "nop" ? "jmp" :
@@ -62,7 +59,7 @@ fix!(p::Program) =
             p[i] = replace(p[i], op => newop)
             run!(p)
             terminated(p) && break
-            p.code = copy(oldcode)
+            p = Program(copy(oldcode))
         end
         p
     end
