@@ -1,7 +1,5 @@
 #!/usr/bin/env julia
 
-const expenses = parse.(Int, readlines(joinpath(@__DIR__, "input.txt")))
-
 twosum(target, numbers, sorted=issorted(numbers)) =
     let s = sorted ? numbers : sort(numbers),
         i = 1,
@@ -31,6 +29,10 @@ threesum(target, numbers) =
         0, 0, 0
     end
 
-
-println(prod(twosum(2020, expenses)))
-println(prod(threesum(2020, expenses)))
+if !isinteractive()
+    expenses = parse.(Int, readlines(joinpath(@__DIR__, "input.txt")))
+    # part 1
+    println(prod(twosum(2020, expenses)))
+    # part 2
+    println(prod(threesum(2020, expenses)))
+end

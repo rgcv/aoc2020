@@ -1,7 +1,5 @@
 #!/usr/bin/env julia
 
-const forest = readlines(joinpath(@__DIR__, "input.txt"))
-
 treecount(forest, dx = 3, dy = 1) =
     let w = length(forest[1]),
         h = length(forest)
@@ -10,10 +8,12 @@ treecount(forest, dx = 3, dy = 1) =
         end
     end
 
-# part 1
-println(treecount(forest))
-
-# part 2
-treecount.([forest],
-           [1 3 5 7 1],
-           [1 1 1 1 2]) |> prod |> println
+if !isinteractive()
+    forest = readlines(joinpath(@__DIR__, "input.txt"))
+    # part 1
+    println(treecount(forest))
+    # part 2
+    treecount.([forest],
+            [1 3 5 7 1],
+            [1 1 1 1 2]) |> prod |> println
+end

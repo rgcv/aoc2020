@@ -1,7 +1,5 @@
 #!/usr/env/bin julia
 
-const filename = joinpath(@__DIR__, "input.txt")
-
 parsebags(filename) =
     let bagmap = Dict{String,Array{Pair{String,Int}}}()
         for line ∈ eachline(filename)
@@ -32,9 +30,11 @@ dfs(graph) = root -> dfs(graph, root)
 
 alldfs(graph) = map(dfs(graph), [keys(graph)...])
 
-# part 1
-println(count(path -> "shiny gold" ∈ path[2:end],
-              first.(alldfs(parsebags(filename)))))
-
-# part 2
-println(last(dfs(parsebags(filename), "shiny gold")))
+if !isinteractive()
+    filename = joinpath(@__DIR__, "input.txt")
+    # part 1
+    println(count(path -> "shiny gold" ∈ path[2:end],
+                first.(alldfs(parsebags(filename)))))
+    # part 2
+    println(last(dfs(parsebags(filename), "shiny gold")))
+end

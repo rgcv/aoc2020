@@ -60,7 +60,10 @@ fix!(p::Program) =
         p
     end
 
-let program = Program(readlines(joinpath(@__DIR__, "input.txt")))
-    program |> run |> getacc |> println # part 1
-    program |> fix |> run |> getacc |> println # part 2
+if !isinteractive()
+    program = Program(readlines(joinpath(@__DIR__, "input.txt")))
+    # part 1
+    println(getacc(run(program)))
+    # part 2
+    println(getacc(run(fix(program))))
 end

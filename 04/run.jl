@@ -1,7 +1,5 @@
 #!/usr/bin/env julia
 
-const batch = strip.(split(read(joinpath(@__DIR__, "input.txt"), String), "\n\n"))
-
 validpassports(batch, part1 = true) =
     count(batch) do passport
         fields = map(split(passport, r"\s")) do field
@@ -19,5 +17,10 @@ validpassports(batch, part1 = true) =
         ], passport))
     end
 
-println(validpassports(batch)) # part 1
-println(validpassports(batch, false)) # part 2
+if !isinteractive()
+    batch = strip.(split(read(joinpath(@__DIR__, "input.txt"), String), "\n\n"))
+    # part 1
+    println(validpassports(batch))
+    # part 2
+    println(validpassports(batch, false))
+end
