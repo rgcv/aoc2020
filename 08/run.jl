@@ -19,7 +19,7 @@ mutable struct Program
     end
 end
 Program(code::AbstractVector{<:AbstractString}) =
-    @inbounds Program(0, 1, string.(code), falses(length(code)))
+    @inbounds Program(0, 1, code, falses(length(code)))
 
 getacc(p::Program) = p.acc
 islooping(p::Program) = p.visited[p.pc]
