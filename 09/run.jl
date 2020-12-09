@@ -20,8 +20,7 @@ findweakness(ns, n) =
 if !isinteractive()
     ns = parse.(Int, eachline(joinpath(@__DIR__, "input.txt")))
     # part 1
-    n = invalidnumber(ns)
     println(invalidnumber(ns))
     # part 2
-    println(findweakness(ns, n))
+    println(findweakness(ns, invalidnumber(ns)))
 end
