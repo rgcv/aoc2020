@@ -15,7 +15,7 @@ mutable struct Program
             length(visited) == len ||
             throw(ErrorException("`visited` vector must be the same length as the code (=$len)"))
         end
-        new(acc, pc, copy(string.(code)), copy(visited))
+        new(acc, pc, string.(code), visited)
     end
 end
 Program(code::AbstractVector{<:AbstractString}) =
