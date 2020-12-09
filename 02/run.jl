@@ -6,7 +6,7 @@ struct Policy
     char::Char
 end
 
-if !isinteractive()
+if abspath(PROGRAM_FILE) == @__FILE__
     list = map(eachline(joinpath(@__DIR__, "input.txt"))) do line
         m = match(r"([0-9]+)-([0-9]+) ([a-z]): ([a-z]+)", line)
         lo, hi = parse.(Int, m.captures[1:2])

@@ -30,7 +30,7 @@ dfs(graph) = root -> dfs(graph, root)
 
 alldfs(graph) = map(dfs(graph), [keys(graph)...])
 
-if !isinteractive()
+if abspath(PROGRAM_FILE) == @__FILE__
     filename = joinpath(@__DIR__, "input.txt")
     # part 1
     println(count(path -> "shiny gold" ∈ path[2:end],

@@ -8,7 +8,7 @@ treecount(forest, dx = 3, dy = 1) =
         end
     end
 
-if !isinteractive()
+if abspath(PROGRAM_FILE) == @__FILE__
     forest = readlines(joinpath(@__DIR__, "input.txt"))
     # part 1
     println(treecount(forest))

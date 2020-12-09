@@ -17,7 +17,7 @@ validpassports(batch, part1 = true) =
         ], passport))
     end
 
-if !isinteractive()
+if abspath(PROGRAM_FILE) == @__FILE__
     batch = strip.(split(read(joinpath(@__DIR__, "input.txt"), String), "\n\n"))
     # part 1
     println(validpassports(batch))

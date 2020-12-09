@@ -33,7 +33,7 @@ findid(filename) =
         end
     end
 
-if !isinteractive()
+if abspath(PROGRAM_FILE) == @__FILE__
     filename = joinpath(@__DIR__, "input.txt")
     # part 1
     println(highestseatid(filename))

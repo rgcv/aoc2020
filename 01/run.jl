@@ -27,7 +27,7 @@ findthreesum(target, numbers) =
         end
     end
 
-if !isinteractive()
+if abspath(PROGRAM_FILE) == @__FILE__
     expenses = parse.(Int, readlines(joinpath(@__DIR__, "input.txt")))
     # part 1
     println(prod(findtwosum(2020, expenses)))

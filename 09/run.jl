@@ -17,7 +17,7 @@ findweakness(ns, n) =
         this(i, i, 0)
     end
 
-if !isinteractive()
+if abspath(PROGRAM_FILE) == @__FILE__
     ns = parse.(Int, eachline(joinpath(@__DIR__, "input.txt")))
     # part 1
     println(invalidnumber(ns))
