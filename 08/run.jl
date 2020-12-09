@@ -21,8 +21,6 @@ end
 Program(code::AbstractVector{<:AbstractString}) =
     @inbounds Program(0, 1, string.(code), falses(length(code)))
 
-const program = Program(readlines(joinpath(@__DIR__, "input.txt")))
-
 getacc(p::Program) = p.acc
 islooping(p::Program) = p.visited[p.pc]
 terminated(p::Program) = p.pc > size(p)
@@ -64,6 +62,7 @@ fix!(p::Program) =
         p
     end
 
-
-program |> run |> getacc |> println
-program |> fix |> run |> getacc |> println
+let program = Program(readlines(joinpath(@__DIR__, "input.txt")))
+    program |> run |> getacc |> println # part 1
+    program |> fix |> run |> getacc |> println # part 2
+end
