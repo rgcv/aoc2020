@@ -53,10 +53,11 @@ fix!(p::Program) =
                     op == "nop" ? "jmp" :
                     op
             newop == op && continue
-            p[i] = replace(p[i], op => newop)
+            instr = p[i] = replace(p[i], op => newop)
             run!(p)
-            terminated(p) && break
+            res = terminated(p)
             p = Program(copy(oldcode))
+            res && (p[i] = instr; break)
         end
         p
     end
