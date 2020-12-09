@@ -24,16 +24,13 @@ Program(code::AbstractVector{<:AbstractString}) =
 getacc(p::Program) = p.acc
 islooping(p::Program) = p.visited[p.pc]
 terminated(p::Program) = p.pc > size(p)
-reset!(p::Program) = (p.acc = 0; p.pc = 1; p.visited .= false; p)
 
 Base.copy(p::Program) =
     @inbounds Program(p.acc, p.pc, copy(p.code), copy(p.visited))
-
 Base.getindex(p::Program, i::Integer) = p.code[i]
 Base.length(p::Program) = length(p.code)
 Base.setindex!(p::Program, v, i::Integer) = p.code[i] = v
 Base.size(p::Program) = length(p)
-Base.reset(p::Program) = reset!(copy(p))
 
 run(p::Program) = run!(copy(p))
 function run!(p::Program)
