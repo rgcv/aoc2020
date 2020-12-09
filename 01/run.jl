@@ -1,6 +1,6 @@
 #!/usr/bin/env julia
 
-twosum(target, numbers, sorted=issorted(numbers)) =
+findtwosum(target, numbers, sorted=issorted(numbers)) =
     let s = sorted ? numbers : sort(numbers),
         i = 1,
         j = length(numbers)
@@ -14,25 +14,23 @@ twosum(target, numbers, sorted=issorted(numbers)) =
                 i += 1
             end
         end
-        0, 0
     end
 
-threesum(target, numbers) =
+findthreesum(target, numbers) =
     let s = issorted(numbers) ? numbers : sort(numbers),
         l = length(numbers)
         for (i, a) ∈ enumerate(s)
-            b, c = twosum(target - a, s[i + 1:l], true)
-            if a ≠ target && a + b + c == target
-                return a, b, c
+            res = findtwosum(target - a, s[i + 1:l], true)
+            if !isnothing(res)
+                return a, res...
             end
         end
-        0, 0, 0
     end
 
 if !isinteractive()
     expenses = parse.(Int, readlines(joinpath(@__DIR__, "input.txt")))
     # part 1
-    println(prod(twosum(2020, expenses)))
+    println(prod(findtwosum(2020, expenses)))
     # part 2
-    println(prod(threesum(2020, expenses)))
+    println(prod(findthreesum(2020, expenses)))
 end
