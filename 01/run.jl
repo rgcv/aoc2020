@@ -22,10 +22,10 @@ twosum(target, numbers, sorted=issorted(numbers)) =
 threesum(target, numbers) =
     let s = issorted(numbers) ? numbers : sort(numbers),
         l = length(numbers)
-        for (i, n) ∈ enumerate(s)
-            a, b = twosum(target - n, s[i + 1:l], true)
-            if n ≠ target && a + b + n == target
-                return a, b, n
+        for (i, a) ∈ enumerate(s)
+            b, c = twosum(target - a, s[i + 1:l], true)
+            if a ≠ target && a + b + c == target
+                return a, b, c
             end
         end
         0, 0, 0
