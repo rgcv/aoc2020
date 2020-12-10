@@ -1,4 +1,4 @@
-#!/usr/env/bin julia
+#!/usr/bin/env julia
 
 parsebags(filename) =
     let bagmap = Dict{String,Array{Pair{String,Int}}}()
