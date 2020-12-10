@@ -1,6 +1,10 @@
 #!/usr/bin/env julia
 
+module day1
+export findtwosum
 include(joinpath(dirname(@__DIR__), "01/run.jl")) # findtwosum
+end
+using .day1
 
 invalidnumber(ns, m = 25) =
     let this(i) =
