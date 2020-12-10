@@ -36,5 +36,5 @@ if abspath(PROGRAM_FILE) == @__FILE__
     # part 1
     println(joltprod(jolts))
     # part 2
-    countpaths(graphfromjolts(jolts), jolts[end], jolts[1])
+    println(countpaths(graphfromjolts(jolts), jolts[end], jolts[1]))
 end
