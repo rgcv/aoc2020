@@ -1,5 +1,9 @@
 #!/usr/bin/env julia
 
+import Base.Threads: @threads
+
+abstract type Position end
+
 macro position(name)
     cname = Symbol(uppercase(string(name)))
     quote
@@ -8,8 +12,6 @@ macro position(name)
         $name() = $cname
     end |> esc
 end
-
-abstract type Position end
 
 @position Empty
 @position Occupied
@@ -64,13 +66,15 @@ visibleadjs(grid, i, j) =
 update(grid; adjs = directadjs, occpred = ≥(4)) =
     let (n, m) = size(grid),
         newgrid = copy(grid)
-        for i ∈ 1:n, j ∈ 1:m
+        @threads for i ∈ 1:n
+        @threads for j ∈ 1:m
             occupied = count(isoccupied, adjs(grid, i, j))
             if isempty(grid[i, j]) && occupied == 0
                 newgrid[i, j] = OCCUPIED
             elseif isoccupied(grid[i, j]) && occpred(occupied)
                 newgrid[i, j] = EMPTY
             end
+        end
         end
         newgrid
     end
