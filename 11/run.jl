@@ -1,29 +1,30 @@
 #!/usr/bin/env julia
 
+macro position(name)
+    cname = Symbol(uppercase(string(name)))
+    quote
+        struct $name <: Position end
+        const $cname = $name()
+        $name() = $cname
+    end |> esc
+end
+
 abstract type Position end
+
+@position Empty
+@position Occupied
+@position Floor
+
 Position(x::AbstractChar) = Position(string(x))
 Position(x::AbstractString) =
     x == "L" ? Empty() :
     x == "#" ? Occupied() : Floor()
 
-macro position(name)
-    uname = Symbol(uppercase(string(name)))
-    quote
-        struct $name <: Position end
-        const $uname = $name()
-        $name() = $uname
-    end |> esc
-end
-@position Empty
-@position Occupied
-@position Floor
-
 Base.isempty(::Position) = false
-isoccupied(::Position) = false
-isfloor(::Position) = false
-
 Base.isempty(::Empty) = true
+isoccupied(::Position) = false
 isoccupied(::Occupied) = true
+isfloor(::Position) = false
 isfloor(::Floor) = true
 
 # helpful to display the grid
