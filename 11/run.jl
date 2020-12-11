@@ -36,11 +36,10 @@ Base.show(io::IO, ::Floor   ) = show(io, ".")
 Base.transpose(x::Position) = x
 
 directadjs(grid, i, j) =
-    let (n, m) = size(grid),
-        adjs = Position[]
+    let adjs = Position[]
         for di ∈ i-1:i+1, dj ∈ j-1:j+1
             di == i && dj == j && continue
-            di ∈ 1:n && dj ∈ 1:m && push!(adjs, grid[di, dj])
+            checkbounds(Bool, grid, di, dj) && push!(adjs, grid[di, dj])
         end
         adjs
     end
@@ -53,8 +52,7 @@ raycast(grid, coord, dir) =
     end
 
 visibleadjs(grid, i, j) =
-    let (n, m) = size(grid),
-        adjs = Position[]
+    let adjs = Position[]
         for di ∈ -1:1, dj ∈ -1:1
             di == dj == 0 && continue
             r = raycast(grid, (i+di, j+dj), (di, dj))
