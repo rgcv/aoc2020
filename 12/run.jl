@@ -79,7 +79,7 @@ manhattan(m::Moveable, start = (0, 0)) = manhattan(position(m), start)
 
 navigate(m::Moveable, is) = reduce(apply, is; init = m)
 
-begin
+if abspath(PROGRAM_FILE) == @__FILE__
     is = parse.(Instruction, eachline(joinpath(@__DIR__, "input.txt")))
     println(manhattan(navigate(Ship((1, 0)), is)))
     println(manhattan(navigate(Waypoint((10, 1)), is)))
