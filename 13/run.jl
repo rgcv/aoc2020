@@ -1,38 +1,38 @@
 #!/usr/bin/env julia
 
 parseinput(filename) =
-    let timestamp, buses = NTuple{2,Int}[]
+    let t, bs = Pair{Int,Int}[]
         open(filename) do io
-            timestamp = parse(Int, readline(io))
-            foreach(enumerate(split(readline(io), ","))) do (i, bid)
-                bid ≠ "x" || return
-                push!(buses, (i, parse(Int, bid)))
+            t = parse(Int, readline(io))
+            foreach(enumerate(split(readline(io), ","))) do (i, id)
+                id ≠ "x" || return
+                push!(bs, i => parse(Int, id))
             end
         end
-        timestamp, buses
+        t, bs
     end
 
-earliestbus(timestamp, busids, id = first(busids), left = typemax(id)) =
-    isempty(busids) ? (id, left) :
-    let newid = first(busids),
-        newleft = newid - (timestamp % newid)
-        newleft < left ?
-            earliestbus(timestamp, @view(busids[2:end]), newid, newleft) :
-            earliestbus(timestamp, @view(busids[2:end]), id, left)
+earliestbus(t, ns, id = first(ns), w = typemax(id)) =
+    isempty(ns) ? (id, w) :
+    let n = first(ns),
+        nw = n - (t % n)
+        nw < w ?
+            earliestbus(t, @view(ns[2:end]), n, nw) :
+            earliestbus(t, @view(ns[2:end]), id, w)
     end
 
 unzip(A) = (getfield.(A, x) for x ∈ fieldnames(eltype(A)))
-earliestcontiguous(buses) = # FIXME: doc/revise half-assed CRT implementation
-    let (is, bids) = unzip(buses),
-        product = prod(bids),
-        rems = bids .- (is .- 1),
-        partial = product .÷ bids,
-        invmods = invmod.(partial, bids)
-        sum(@. partial * invmods * rems) % product
+earliestsequence(bs) =
+    let (is, ns) = (first.(bs) .- 1, last.(bs)),
+        p = prod(ns),
+        as = ns .- is,
+        Ns = p .÷ ns,
+        Ms = invmod.(Ns, ns)
+        sum(as .* Ms .* Ns) % p
     end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    timestamp, buses = parseinput(joinpath(@__DIR__, "input.txt"))
-    println(prod(earliestbus(timestamp, getindex.(buses, 2))))
-    println(earliestcontiguous(buses))
+    t, bs = parseinput(joinpath(@__DIR__, "input.txt"))
+    println(prod(earliestbus(t, last.(bs))))
+    println(earliestsequence(bs))
 end
