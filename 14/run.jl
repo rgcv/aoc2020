@@ -70,7 +70,7 @@ permutations(B::FloatingBitMask{N}, x::BitVector) where N =
 
 store!(mem, a, B::BitMask, v) = (mem[a] = v & B; mem)
 store!(mem, a, B::FloatingBitMask, v) =
-    let nas = sort!(intfrombits.(typeof(v), permutations(B, a & B)))
+    let nas = intfrombits.(typeof(v), permutations(B, a & B))
         for na ∈ nas
             mem[na] = v
         end
