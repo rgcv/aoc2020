@@ -2,17 +2,17 @@
 
 memorygame!(ns, target = 2020) =
     let cache = IdDict{Int,Int}(),
-        len = length(ns),
+        turn = length(ns),
         cur = ns[end]
 
         resize!(ns, target)
-        for (i, n) ∈ enumerate(ns[1:len - 1]) cache[n] = i end
+        for (i, n) ∈ enumerate(ns[1:turn - 1]) cache[n] = i end
 
-        for turn ∈ len:target - 1
+        while turn < target
             last = get!(cache, cur, turn)
             cache[cur] = turn
             cur = turn - last 
-            ns[turn + 1] = cur
+            ns[turn += 1] = cur
         end
 
         ns[target]
