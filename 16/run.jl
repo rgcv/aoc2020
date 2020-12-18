@@ -43,7 +43,7 @@ isvalid(fs) = t -> isvalid(t, fs)
 validtickets(ts, fs) = filter(isvalid(fs), ts)
 orderedfields(ts, fs) =
     let cands = IdDict(f => Set(1:length(fs)) for f ∈ fs)
-        for f ∈ fs, t ∈ ts, i ∈ values(cands[f])
+        for f ∈ fs, t ∈ ts, i ∈ cands[f]
             t[i] ∈ f || delete!(cands[f], i) 
         end
         ks = sort!([keys(cands)...], by=k->length(cands[k]))
