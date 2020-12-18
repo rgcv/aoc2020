@@ -50,7 +50,7 @@ orderedfields(ts, fs) =
         for i ∈ length(ks):-1:2
             setdiff!(cands[ks[i]], cands[ks[i-1]])
         end
-        sort!([keys(cands)...], by=k->first(cands[k]))
+        sort!(ks, by=k->first(cands[k]))
     end
 
 if abspath(PROGRAM_FILE) == @__FILE__
