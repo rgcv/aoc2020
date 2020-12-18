@@ -52,13 +52,10 @@ orderedfields(ts, fs) =
         end
         sort!([keys(cands)...], by=k->first(cands[k]))
     end
-depprod(t, ts, fs) =
-    let ofs = orderedfields(validtickets(ts, fs), fs)
-        prod(t[findall(startswith("departure"), map(name, ofs))])
-    end
 
 if abspath(PROGRAM_FILE) == @__FILE__
     fs, t, ts = parseinput(joinpath(@__DIR__, "input.txt"))
     println(invalidsum(ts, fs))
-    println(depprod(t, ts, fs))
+    ofs = orderedfields(validtickets(ts, fs), fs)
+    println(prod(t[findall(startswith("departure"), name.(ofs))]))
 end
