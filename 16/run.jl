@@ -29,9 +29,9 @@ Base.show(io::IO, x::Field) =
 parseinput(filename) =
     let itr = eachline(filename)
         fs = map(Field, takewhile(!isempty, itr))
-        iterate(itr)
+        iterate(dropwhile(!startswith("your ticket:"), itr))
         t = parse.(Int, split(iterate(itr)[1], ","))
-        iterate(drop(itr, 1))
+        iterate(dropwhile(!startswith("nearby tickets:"), itr))
         fs, t, map(line -> parse.(Int, split(line, ",")), itr)
     end
 
