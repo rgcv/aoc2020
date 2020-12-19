@@ -29,7 +29,7 @@ update(grid) =
 exhaust(grid, n = 6) = n == 0 ? grid : exhaust(update(grid), n - 1)
 augment(grid, x = 0) = IdDict((k..., x) => v for (k, v) ∈ grid)
 
-begin#if abspath(PROGRAM_FILE) == @__FILE__
+if abspath(PROGRAM_FILE) == @__FILE__
     grid = parseinput(joinpath(@__DIR__, "input.txt"))
     println(count(last, exhaust(grid)))
     println(count(last, exhaust(augment(grid))))
