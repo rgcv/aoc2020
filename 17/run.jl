@@ -8,26 +8,26 @@ parseinput(filename) =
         IdDict((j, i, 0) => mgrid[i, j] for i ∈ 1:rows for j ∈ 1:cols)
     end
 
-neighbors(grid, k) =
-    (k => get(grid, k, false)
-     for k ∈ product(map(v->v-1:v+1, k)...)
-     if k ≠ k)
+neighbors(grid, pos) =
+    (npos => get(grid, npos, false)
+     for npos ∈ product(map(x->x-1:x+1, pos)...)
+     if npos ≠ pos)
 
 update(grid) =
     let tgrid = copy(grid)
-        for (k, v) ∈ grid, (k1, v1) ∈ neighbors(grid, k)
-            tgrid[k1] = v1
+        for (pos, _) ∈ grid, (npos, state) ∈ neighbors(grid, pos)
+            tgrid[npos] = state
         end
         newgrid = copy(tgrid)
-        for (k, v) ∈ tgrid
-            as = count(last, neighbors(tgrid, k))
-            newgrid[k] = v ? 2 ≤ as ≤ 3 : as == 3
+        for (pos, state) ∈ tgrid
+            active = count(last, neighbors(tgrid, pos))
+            newgrid[pos] = state ? 2 ≤ active ≤ 3 : active == 3
         end
         newgrid
     end
 
 exhaust(grid, n = 6) = n == 0 ? grid : exhaust(update(grid), n - 1)
-augment(grid, x = 0) = IdDict((k..., x) => v for (k, v) ∈ grid)
+augment(grid, x = 0) = IdDict((pos..., x) => state for (pos, state) ∈ grid)
 
 if abspath(PROGRAM_FILE) == @__FILE__
     grid = parseinput(joinpath(@__DIR__, "input.txt"))
